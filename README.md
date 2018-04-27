@@ -20,4 +20,4 @@ $ docker build --build-arg username=$YOU -t $YOU/gc-sdk:latest .
 
 An example to run this container, setting $YOU as the user and /home/$YOU as the working directory. It also adds the .ssh directory as GCE tools use SSH to access instances. It also sets the hostname, so you know you inside a GCE docker!
 
-$ docker run -it --rm -h gc-sdk --workdir /home/$YOU --user $YOU -v /Users/$YOU/.ssh:/home/$YOU/.ssh $YOU/gc-sdk:latest /bin/bash
+$ docker run -it --rm -h gc-sdk -v /Users/$YOU/.ssh:/home/$YOU/.ssh $YOU/gc-sdk:latest /bin/bash
