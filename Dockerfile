@@ -20,6 +20,13 @@ RUN apt-get update && \
 	vim && \
 	apt-get clean
 
+# CRC
+RUN DEBIAN_FRONTEND=noninteractive apt-get install gcc python-dev python-setuptools && \
+	apt-get clean && \
+	easy_install -U pip && \
+	pip uninstall --yes crcmod && \
+	pip install -U crcmod
+
 # Me! or You!
 COPY homedir /home/${username}
 RUN rm -rf /home/${username}/.git /home/${username}/.gitignore
