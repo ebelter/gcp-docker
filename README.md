@@ -21,3 +21,14 @@ $ docker build --build-arg username=$YOU -t $YOU/gc-sdk:latest .
 An example to run this container, setting $YOU as the user and /home/$YOU as the working directory. It also adds the .ssh directory as GCE tools use SSH to access instances. It also sets the hostname, so you know you inside a GCE docker!
 
 $ docker run -it --rm -h gc-sdk -v /Users/$YOU/.ssh:/home/$YOU/.ssh $YOU/gc-sdk:latest /bin/bash
+
+# Docker
+
+## Login to GCP Docker Registry
+
+$ gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://us.gcr.io
+
+## Running Docker Commands
+
+Run docker commands as normal, except add sudo to the commands. This will give permission to access the /var/run/docker.sock resource.
+
