@@ -1,6 +1,6 @@
-##################################
-# Google Cloud Engine SDK Docker #
-##################################
+###################################
+# Google Cloud Project SDK Docker #
+###################################
 
 # Based on...
 FROM google/cloud-sdk:latest
@@ -19,6 +19,22 @@ RUN apt-get update && \
 	sudo \
 	vim && \
 	apt-get clean
+
+# Upgrade Components
+RUN sudo apt-get update && \
+	DEBIAN_FRONTEND=noninteractive apt-get --only-upgrade install -y --no-install-recommends \
+	kubectl \
+	google-cloud-sdk \
+	google-cloud-sdk-app-engine-grpc \
+	google-cloud-sdk-pubsub-emulator \
+	google-cloud-sdk-app-engine-go \
+	google-cloud-sdk-datastore-emulator \
+	google-cloud-sdk-app-engine-python \
+	google-cloud-sdk-cbt \
+	google-cloud-sdk-bigtable-emulator \
+	google-cloud-sdk-app-engine-python-extras \
+	google-cloud-sdk-datalab \
+	google-cloud-sdk-app-engine-java
 
 # CRC
 RUN DEBIAN_FRONTEND=noninteractive apt-get install gcc python-dev python-setuptools && \
