@@ -55,5 +55,5 @@ USER ${username}
 WORKDIR /home/${username}
 ENV HOME /home/${username}
 
-# Entry Point
-ENTRYPOINT /bin/bash
+# Default Command
+CMD [ /bin/bash ]
