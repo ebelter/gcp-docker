@@ -14,7 +14,9 @@ This docker will build using the contents of a directory inside the docker conte
 
 ### Building
 
-$ docker build --build-arg username=$YOU -t $YOU/gc-sdk:latest .
+Here is the docker build command. Replace george with your user name. 
+
+$ ME=george docker build --build-arg username=$ME -t $ME/gc-sdk:latest .
 
 ## Running
 
