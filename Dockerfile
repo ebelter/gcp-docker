@@ -53,7 +53,7 @@ RUN useradd -Ms /bin/bash ${username} -G staff && \
 RUN echo "${username} ALL=(ALL:ALL) NOPASSWD: ALL" | sudo EDITOR='tee -a' visudo
 USER ${username}
 WORKDIR /home/${username}
+ENV HOME /home/${username}
 
 # Entry Point
-CMD [--login]
 ENTRYPOINT /bin/bash
