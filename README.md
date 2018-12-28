@@ -1,34 +1,36 @@
-# Google Cloud Engine SDK Docker
+# Google Cloud Project SDK Docker
 
-This docker has has the gcloud and gsutil commands to interact with GCE
+This docker is based on the google/cloud-sdk:latest image and has has the gcloud and gsutil commands and updated components to interact with GCP. This docker also creates a user and copy a homedir into the image. This gives the convenience of config files and aliases.
 
-# How To Build
+## HOW TO Build
 
-## User - YOU!
+### User - YOU!
 
-The dockerfile is configured to create a user inside the docker container. Pass the desired user name as build arg when building the docker image.
+The dockerfile is configured to create a user inside the docker container. Pass the desired user name as a build arg when building the docker image.
 
-## Home Directory
+### Home Directory [homedir]
 
-This docker will build using the contents of a directory insidethe docker context named 'homedir' as the user's home directory. Put whatever you want copied into the container into this 'homedir' directory. Git can be used to store bash config, commands, etc., and cloned into this directory to have access to it in the container.
+This docker will build using the contents of a directory inside the docker context named 'homedir' as the user's home directory. Put whatever you want copied into the container into this 'homedir' directory. Place files like .bashrc, aliases, other config, commands, etc. into this directory to have access to them in the container.
 
-## Building
+### Building
 
 $ docker build --build-arg username=$YOU -t $YOU/gc-sdk:latest .
 
-# Running
+## Running
 
-An example to run this container, setting $YOU as the user and /home/$YOU as the working directory. It also adds the .ssh directory as GCE tools use SSH to access instances. It also sets the hostname, so you know you inside a GCE docker!
+An example on MACOSX to run this container, setting $YOU as the user and /home/$YOU as the working directory. It also adds the .ssh directory as GCP tools use SSH to access instances. It also sets the hostname, so you know you inside a GCP docker!
 
-$ docker run -it --rm -h gc-sdk -v /Users/$YOU/.ssh:/home/$YOU/.ssh $YOU/gc-sdk:latest /bin/bash
+$ docker run -it --rm -h gcp-sdk -v /Users/$YOU/.ssh:/home/$YOU/.ssh $YOU/gc-sdk:latest /bin/bash
 
-# Docker
+## Using Docker Inside the Image
 
-## Login to GCP Docker Registry
+Notes on running dockler inside the GCP docker container. This is needed when pushing docker images to your GCP docker registry.
+
+### Login to GCP Docker Registry
 
 $ gcloud auth print-access-token | sudo docker login -u oauth2accesstoken --password-stdin https://us.gcr.io
 
-## Running Docker Commands
+### Running Docker Commands
 
 Run docker commands as normal, except add sudo to the commands. This will give permission to access the /var/run/docker.sock resource.
 
