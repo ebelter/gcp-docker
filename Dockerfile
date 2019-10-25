@@ -2,27 +2,37 @@
 # Google Cloud Project SDK Docker #
 ###################################
 
-# Based on...
-FROM google/cloud-sdk:latest
+# Python 3
+FROM python:3.7.3-stretch
 
 # File Author / Maintainer
-LABEL maintainer="ebelter@wustl.edu"
+MAINTAINER Eddie Belter <ebelter@wustl.edu>
 
 # Args
 ARG username=ebelter
 
+
 # Deps
 RUN apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
-	less \
-        libnss-sss \
+  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+  apt-transport-https \
+  ca-certificates \
+  gcc \
+  libnss-sss \
+  less \
+  python-dev \
+  python-setuptools \
 	sudo \
-	vim && \
+  vim && \
 	apt-get clean
 
-# Upgrade Components
+# GCP SDK DPKG
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+
+# GCP SDK & Components
 RUN sudo apt-get update && \
-	DEBIAN_FRONTEND=noninteractive apt-get --only-upgrade install -y --no-install-recommends \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
 	kubectl \
 	google-cloud-sdk \
 	google-cloud-sdk-app-engine-grpc \
@@ -37,9 +47,7 @@ RUN sudo apt-get update && \
 	google-cloud-sdk-app-engine-java
 
 # CRC
-RUN DEBIAN_FRONTEND=noninteractive apt-get install gcc python-dev python-setuptools && \
-	apt-get clean && \
-	easy_install -U pip && \
+RUN easy_install -U pip && \
 	pip uninstall --yes crcmod && \
 	pip install -U crcmod
 
