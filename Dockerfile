@@ -3,7 +3,7 @@
 ###################################
 
 # Python 3
-FROM python:3.7.3-stretch
+FROM python:3.10.0-buster
 
 # File Author / Maintainer
 MAINTAINER Eddie Belter <ebelter@wustl.edu>
@@ -13,8 +13,8 @@ ARG username=ebelter
 
 
 # Deps
-RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+RUN apt update && \
+  apt install -y --no-install-recommends \
   apt-transport-https \
   ca-certificates \
   gcc \
@@ -23,6 +23,7 @@ RUN apt-get update && \
   python-dev \
   python-setuptools \
 	sudo \
+  tmux \
   vim && \
 	apt-get clean
 
@@ -47,9 +48,8 @@ RUN sudo apt-get update && \
 	google-cloud-sdk-app-engine-java
 
 # CRC
-RUN easy_install -U pip && \
-	pip uninstall --yes crcmod && \
-	pip install -U crcmod
+RUN pip uninstall --yes crcmod && \
+  pip install --no-cache-dir -U crcmod
 
 # Me! or You!
 COPY homedir /home/${username}
